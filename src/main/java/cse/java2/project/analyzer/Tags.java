@@ -64,7 +64,9 @@ public class Tags {
 
                 // 计算每个标签或标签组合的点赞总数
                 for (String tag : tagArray) {
-                    upvoteCount.put(tag, upvoteCount.getOrDefault(tag, 0) + upvotes);
+                    if (!tag.equals("java")) {
+                        upvoteCount.put(tag, upvoteCount.getOrDefault(tag, 0) + upvotes);
+                    }
                 }
             }
 
@@ -96,11 +98,11 @@ public class Tags {
                     String last = views.substring(views.length() - 1);
                     double l1 = Double.parseDouble((views.substring(0, views.length() - 1)));
                     if (last.equals("m")) {
-                        view = (int) (l1 * 1000000);
-                    } else if (last.equals("k")) {
                         view = (int) (l1 * 1000);
+                    } else if (last.equals("k")) {
+                        view = (int) (l1);
                     } else {
-                        view = (int) Long.parseLong(views);
+                        view = (int) ((int) Long.parseLong(views) * 0.001);
                     }
 
                     // 假设标签之间用空格分隔
@@ -108,7 +110,9 @@ public class Tags {
 
                     // 计算每个标签或标签组合的浏览量总数
                     for (String tag : tagArray) {
-                        viewCount.put(tag, (viewCount.getOrDefault(tag, 0) + view));
+                        if (!tag.equals("java")) {
+                            viewCount.put(tag, (viewCount.getOrDefault(tag, 0) + view));
+                        }
                     }
                 }
 
@@ -120,7 +124,7 @@ public class Tags {
 
                 try (CSVWriter writer2 = new CSVWriter(new FileWriter(outputFile2))) {
                     // 写入CSV文件的表头
-                    String[] header2 = {"Tag", "view"};
+                    String[] header2 = {"Tag", "view/k"};
                     writer2.writeNext(header2);
 
                     // 写入排序后的标签及其点赞数

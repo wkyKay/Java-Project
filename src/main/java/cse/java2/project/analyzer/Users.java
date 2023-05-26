@@ -46,7 +46,7 @@ public class Users {
 
                 // 写入排序后的标签及其点赞数
                 for (Map.Entry<String, Integer> entry : sortedEntries) {
-                    String[] row = {entry.getKey(), entry.getValue().toString()};
+                    String[] row = {entry.getKey(), String.valueOf(entry.getValue())};
                     writer.writeNext(row);
                 }
 
