@@ -11,36 +11,205 @@
 <body style="text-align: center">
 <h1>Rust Tag</h1>
 <h4>This is just a demo page</h4>
-<div style="width: 100%;height: 60vh;display: flex">
-    <div style="width: 50%;height: 100%">
-        <div id="main" style="height: 100%;width: 100%"></div>
+<div style="width: 100%;height: 500px;display: flex">
+    <div style="width: 100%;height: 100%">
+        <div id="main" style="height: 600px;width: 1500px"></div>
+        <div id="wordcloud" style="height: 1200px;width: 1500px"></div>
+        <div id="wordcloud2" style="height: 1000px;width: 1200px"></div>
     </div>
     <!--    <div id = "main" style="width: 300px; height: 300px"></div>-->
 </div>
 </body>
 
 <script>
+    //图一
     const chartDom = document.getElementById('main');
     const myChart = echarts.init(chartDom);
-    let option;
+    fetch('../js/sorted_tag_frequency.csv')
+        .then(response => response.text())
+        .then(csvData => {
+            const rows = csvData.split('\n');
+            const xAxisData = [];
+            const seriesData = [];
 
-    option = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                data: [150, 230, 224, 218, 135, 147, 260],
-                type: 'line'
+            // 解析CSV数据
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].split(',');
+                const xAxisValue = cells[0].replace(/"/g, ''); // 去除字符串两端的双引号
+                const seriesValue = parseFloat(cells[1].replace(/"/g, '').trim()); // 去除字符串两端的双引号并去除空格
+                xAxisData.push(xAxisValue);
+                seriesData.push(seriesValue);
             }
-        ]
-    };
 
-    option && myChart.setOption(option);
+            // 配置图表选项
+            const option = {
+                legend: {
+                    data: ['频次', '平均评分'],
+                    left: '10%'
+                },
+                brush: {
+                    toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+                    xAxisIndex: 0
+                },
+                toolbox: {
+                    feature: {
+                        magicType: {
+                            type: ['stack']
+                        },
+                        dataView: {}
+                    }
+                },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: xAxisData
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: [
+                    {
+                        data: seriesData,
+                        type: 'line'
+                    }
+                ]
+            };
+
+            // 渲染图表
+            myChart.setOption(option);
+        });
+
+    //图二
+    let wordcloud = echarts.init(document.getElementById('wordcloud'));
+
+    fetch('../js/tag_upvote.csv')
+        .then(response => response.text())
+        .then(csvData => {
+                const wordcloudData = [];
+                const rows = csvData.split('\n');
+
+                // 解析CSV数据
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].replace(","," ").split('#');
+                    const xAxisValue = cells[0].replace(/"/g, '');
+                    const seriesValue = parseInt(cells[1]);
+
+                    wordcloudData.push({name: xAxisValue, value: seriesValue})
+
+                }
+
+                let wordcloudOption = {
+                    title: {
+                        text: 'Related Tag WordCloud',
+                        textStyle: {
+                            fontStyle: 'oblique',
+                            fontSize: 20,
+                            color: '#4cc9f0'
+                        },
+                        left: 'center'
+                    },
+                    tooltip: {},
+                    series: [{
+                        type: 'wordCloud',
+                        shape: {
+                            cloudGrow: 0.2
+                        },
+                        sizeRange: [10, 60],
+                        rotationRange: [-30, 30],
+                        gridSize: 2,
+                        drawOutOfBound: false,
+                        layoutAnimation: true,
+                        keepAspect: true,
+                        textStyle: {
+                            fontWeight: 'bold',
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            textStyle: {
+                                shadowBlur: 15,
+                                shadowColor: '#333'
+                            }
+                        },
+                        data: wordcloudData.sort(function (a, b) {
+                            return b.value - a.value;
+                        })
+                    }]
+                };
+                wordcloud.setOption(wordcloudOption);
+            }
+        )
+
+    //图三
+    let wordcloud2 = echarts.init(document.getElementById('wordcloud2'));
+
+    fetch('../js/tag_view.csv')
+        .then(response => response.text())
+        .then(csvData => {
+                const wordcloudData = [];
+                const rows = csvData.split('\n');
+
+                // 解析CSV数据
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].replace(","," ").split('#');
+                    const xAxisValue = cells[0].replace(/"/g, '');
+                    const seriesValue = parseInt(cells[1]);
+
+                    wordcloudData.push({name: xAxisValue, value: seriesValue})
+
+                }
+
+                let wordcloudOption = {
+                    title: {
+                        text: 'Related Tag WordCloud',
+                        textStyle: {
+                            fontStyle: 'oblique',
+                            fontSize: 20,
+                            color: '#4cc9f0'
+                        },
+                        left: 'center'
+                    },
+                    tooltip: {},
+                    series: [{
+                        type: 'wordCloud',
+                        shape: {
+                            cloudGrow: 0.5
+                        },
+                        sizeRange: [20, 90],
+                        rotationRange: [-30, 30],
+                        gridSize: 2,
+                        drawOutOfBound: false,
+                        layoutAnimation: true,
+                        keepAspect: true,
+                        textStyle: {
+                            fontWeight: 'bold',
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            textStyle: {
+                                shadowBlur: 15,
+                                shadowColor: '#333'
+                            }
+                        },
+                        data: wordcloudData.sort(function (a, b) {
+                            return b.value - a.value;
+                        })
+                    }]
+                };
+                wordcloud2.setOption(wordcloudOption);
+            }
+        )
 
 </script>
 

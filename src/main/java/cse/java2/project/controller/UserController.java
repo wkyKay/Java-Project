@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class TestController {
+public class UserController {
 
     /**
      * This method is called when the user requests the root URL ("/") or "/demo".
@@ -12,9 +12,9 @@ public class TestController {
      * @return the name of the view to be rendered
      * You can find the static HTML file in src/main/resources/templates/demo.html
      */
-    @GetMapping({ "/test"})
+    @GetMapping({ "/user"})
     public String demo() {
-        return "test";
+        return "user";
     }
 
 }
