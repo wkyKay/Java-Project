@@ -17,16 +17,16 @@ public class Advance {
 
             List<String[]> lines = reader.readAll();
 
-            String [] line0 = lines.get(0);
+            String[] line0 = lines.get(0);
             lines = lines.subList(1, lines.size());
 
             Map<String, Integer> frequency = new HashMap<>();
-            for(String tag: line0){
+            for (String tag : line0) {
                 frequency.put(tag, 0);
             }
 
-            for(String[] line: lines){
-                for(int i = 0; i < line.length; i++){
+            for (String[] line : lines) {
+                for (int i = 0; i < line.length; i++) {
                     frequency.put(line0[i], frequency.get(line0[i]) + Integer.parseInt(line[i]));
                 }
             }

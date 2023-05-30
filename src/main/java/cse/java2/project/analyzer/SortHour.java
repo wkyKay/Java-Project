@@ -25,16 +25,16 @@ public class SortHour {
                 int hour = Integer.parseInt(line[1]);
                 int Frequency = Integer.parseInt(line[2]);
 
-                if(day == 0 && hour == 0){
+                if (day == 0 && hour == 0) {
                     time_distribution.put("< 1h", time_distribution.getOrDefault("< 1h", 0) + Frequency);
-                }else if(day == 0){
-                    time_distribution.put("1h <= t < 1d",time_distribution.getOrDefault("1h <= t < 1d", 0) + Frequency);
-                }else if(day > 0 && day < 10){
-                    time_distribution.put("1d <= t < 10d",time_distribution.getOrDefault("1d <= t < 10d", 0) + Frequency);
-                }else if(day >= 10 && day < 100){
-                    time_distribution.put("10d <= t < 100d",time_distribution.getOrDefault("10d <= t < 100d", 0) + Frequency);
-                }else {
-                    time_distribution.put("t >= 100d",time_distribution.getOrDefault("t >= 100d", 0) + Frequency);
+                } else if (day == 0) {
+                    time_distribution.put("1h <= t < 1d", time_distribution.getOrDefault("1h <= t < 1d", 0) + Frequency);
+                } else if (day > 0 && day < 10) {
+                    time_distribution.put("1d <= t < 10d", time_distribution.getOrDefault("1d <= t < 10d", 0) + Frequency);
+                } else if (day >= 10 && day < 100) {
+                    time_distribution.put("10d <= t < 100d", time_distribution.getOrDefault("10d <= t < 100d", 0) + Frequency);
+                } else {
+                    time_distribution.put("t >= 100d", time_distribution.getOrDefault("t >= 100d", 0) + Frequency);
                 }
 
             }
