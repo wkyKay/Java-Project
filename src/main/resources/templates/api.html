@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java2 Project Demo</title>
+    <!--  Import echarts lib by CDN, you can also import from local files  -->
+    <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+</head>
+<body style="text-align: center">
+<h1>Rust Tag</h1>
+<h4>This is just a demo page</h4>
+<div style="width: 100%;height: 60vh;display: flex">
+    <div style="width: 50%;height: 100%">
+        <div id="main" style="height: 100%;width: 1600px"></div>
+    </div>
+</div>
+</body>
+
+<script>
+    const chartDom = document.getElementById('main');
+    const myChart = echarts.init(chartDom);
+
+
+    fetch('../js/tag_freq.csv')
+        .then(response => response.text())
+        .then(csvData => {
+            const xAxis = [];
+            const series = [];
+            const rows = csvData.split('\n');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].split(",");
+                const xAxisValue = cells[0].replace(/"/g, '');
+                const seriesValue = parseInt(cells[1]);
+
+                xAxis.push(xAxisValue);
+                series.push(seriesValue);
+            }
+
+            let option = {
+                title:{
+                    text:'Frequently discussed Java APIs',
+                    left:'center',
+                    textStyle:{
+                        fontSize:25
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                legend: {
+                    data: ['Frequency in 500 threads']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: xAxis,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Frequency in 500 threads',
+                        type: 'bar',
+                        tooltip: {
+                            valueFormatter: function (value) {
+                                return value;
+                            }
+                        },
+                        data: series
+                    }
+                ]
+            };
+
+            option && myChart.setOption(option);
+        })
+
+
+
+</script>
+
+</html>

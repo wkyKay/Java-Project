@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Java2 Project Demo</title>
+    <title>User</title>
     <!--  Import echarts lib by CDN, you can also import from local files  -->
     <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
 </head>
 <body style="text-align: center">
-<h1>Rust Tag</h1>
-<h4>This is just a demo page</h4>
+<h1>User</h1>
 <div style="width: 100%;height: 60vh;display: flex">
     <div style="width: 50%;height: 100%">
         <div id="piechart" style="height: 100%;width: 100%"></div>
         <div id="piechart1" style="height: 100%;width: 100%"></div>
         <div id="piechart2" style="height: 100%;width: 100%"></div>
-        <div id="main" style="height: 100%;width: 100%"></div>
+        <div id="main" style="height: 100%;width: 1600px"></div>
     </div>
 </div>
 </body>
@@ -47,12 +46,7 @@
             let pieOption = {
 
                 title: {
-                    text: 'Problem Count With Corresponding Answer Count',
-                    textStyle: {
-                        fontStyle: 'oblique',
-                        fontSize: 20,
-                        color: '#4cc9f0'
-                    },
+                    text: 'User Post Distribution',
                     left: 'center'
                 },
                 tooltip: {
@@ -78,8 +72,8 @@
                         type: 'pie',
                         radius: '80%',
                         data: piechartData,
-                        color: [ '#4169E1', '#3CB371',
-                            '#FFA500', '#FF7F50', '#DC143C', '#000080','#9400D3', '#FF00FF'],
+                        color: ['#4169E1', '#3CB371',
+                            '#FFA500', '#FF7F50', '#DC143C', '#000080', '#9400D3', '#FF00FF'],
                         emphasis: {
                             itemStyle: {
                                 shadowBlur: 10,
@@ -90,8 +84,8 @@
                         itemStyle: {
                             normal: {
                                 label: {
-                                    formatter(params){
-                                       return Users[params.dataIndex];
+                                    formatter(params) {
+                                        return Users[params.dataIndex];
                                     },
                                     textStyle: {
                                         fontSize: 12,
@@ -132,12 +126,7 @@
             let pieOption = {
 
                 title: {
-                    text: 'Problem Count With Corresponding Answer Count',
-                    textStyle: {
-                        fontStyle: 'oblique',
-                        fontSize: 20,
-                        color: '#4cc9f0'
-                    },
+                    text: 'User Reply Distribution',
                     left: 'center'
                 },
                 tooltip: {
@@ -163,7 +152,7 @@
                         type: 'pie',
                         radius: '80%',
                         data: piechartData,
-                        color: ['#9400D3', '#FF00FF','#FF7F50', '#DC143C', '#000080','#4169E1', '#3CB371',
+                        color: ['#9400D3', '#FF00FF', '#FF7F50', '#DC143C', '#000080', '#4169E1', '#3CB371',
                             '#FFA500'],
                         emphasis: {
                             itemStyle: {
@@ -175,7 +164,7 @@
                         itemStyle: {
                             normal: {
                                 label: {
-                                    formatter(params){
+                                    formatter(params) {
                                         return Users[params.dataIndex];
                                     },
                                     textStyle: {
@@ -217,12 +206,7 @@
             let pieOption = {
 
                 title: {
-                    text: 'Problem Count With Corresponding Answer Count',
-                    textStyle: {
-                        fontStyle: 'oblique',
-                        fontSize: 20,
-                        color: '#4cc9f0'
-                    },
+                    text: 'User Comment Distribution',
                     left: 'center'
                 },
                 tooltip: {
@@ -248,8 +232,8 @@
                         type: 'pie',
                         radius: '80%',
                         data: piechartData,
-                        color: ['#FFA500', '#FF7F50', '#DC143C', '#000080','#9400D3', '#FF00FF', '#4169E1', '#3CB371',
-                            ],
+                        color: ['#FFA500', '#FF7F50', '#DC143C', '#000080', '#9400D3', '#FF00FF', '#4169E1', '#3CB371',
+                        ],
                         emphasis: {
                             itemStyle: {
                                 shadowBlur: 10,
@@ -260,7 +244,7 @@
                         itemStyle: {
                             normal: {
                                 label: {
-                                    formatter(params){
+                                    formatter(params) {
                                         return Users[params.dataIndex];
                                     },
                                     textStyle: {
@@ -276,102 +260,82 @@
             piechart2.setOption(pieOption);
         })
 
-    var chartDom = document.getElementById('main');
-    var myChart = echarts.init(chartDom);
-    var option;
+    const chartDom = document.getElementById('main');
+    const myChart = echarts.init(chartDom);
 
-    option = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                crossStyle: {
-                    color: '#999'
-                }
-            }
-        },
-        toolbox: {
-            feature: {
-                dataView: { show: true, readOnly: false },
-                magicType: { show: true, type: ['line', 'bar'] },
-                restore: { show: true },
-                saveAsImage: { show: true }
-            }
-        },
-        legend: {
-            data: ['Evaporation', 'Precipitation', 'Temperature']
-        },
-        xAxis: [
-            {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                axisPointer: {
-                    type: 'shadow'
-                }
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                name: 'Precipitation',
-                min: 0,
-                max: 250,
-                interval: 50,
-                axisLabel: {
-                    formatter: '{value} ml'
-                }
-            },
-            {
-                type: 'value',
-                name: 'Temperature',
-                min: 0,
-                max: 25,
-                interval: 5,
-                axisLabel: {
-                    formatter: '{value} °C'
-                }
-            }
-        ],
-        series: [
-            {
-                name: 'Evaporation',
-                type: 'bar',
-                tooltip: {
-                    valueFormatter: function (value) {
-                        return value + ' ml';
-                    }
-                },
-                data: [
-                    2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-                ]
-            },
-            {
-                name: 'Precipitation',
-                type: 'bar',
-                tooltip: {
-                    valueFormatter: function (value) {
-                        return value + ' ml';
-                    }
-                },
-                data: [
-                    2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-                ]
-            },
-            {
-                name: 'Temperature',
-                type: 'line',
-                yAxisIndex: 1,
-                tooltip: {
-                    valueFormatter: function (value) {
-                        return value + ' °C';
-                    }
-                },
-                data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-            }
-        ]
-    };
 
-    option && myChart.setOption(option);
+    fetch('../js/user_all.csv')
+        .then(response => response.text())
+        .then(csvData => {
+            const xAxis = [];
+            const series = [];
+            const rows = csvData.split('\n');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].split(",");
+                const xAxisValue = cells[0].replace(/"/g, '');
+                const seriesValue = parseInt(cells[1]);
+
+                xAxis.push(xAxisValue);
+                series.push(seriesValue);
+            }
+
+            let option = {
+                title:{
+                  text:'Which are the most active users who frequently participate in thread discussions?',
+                    left:"center",
+                    marginBottom: '200px'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                legend: {
+                    data: ['Frequency']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: xAxis,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Frequency',
+                        type: 'bar',
+                        tooltip: {
+                            valueFormatter: function (value) {
+                                return value;
+                            }
+                        },
+                        data: series
+                    }
+                ]
+            };
+
+            option && myChart.setOption(option);
+        })
 
 </script>
 

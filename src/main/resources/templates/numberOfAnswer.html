@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number of Answers</title>
+    <!--  Import echarts lib by CDN, you can also import from local files  -->
+    <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+</head>
+<body style="text-align: center">
+<h1>Number of Answers</h1>
+<div style="width: 100%;height: 60vh;display: flex">
+    <div style="width: 100%;height: 100%">
+        <div id="piechart" style="height: 100%;width: 100%"></div>
+        <div id="main" style="height: 120%;width: 50%;margin-top: 50px;position: relative; margin-left: 20%"></div>
+        <div id="piechart1" style="height: 100%;width: 100%;margin-top: 50px"></div>
+    </div>
+</div>
+</body>
+
+<script>
+
+    let piechart = echarts.init(document.getElementById('piechart'));
+    let Answer = []
+    Answer.push({name: "have answer", value: 56.8})
+    Answer.push({name: "don't have answer", value: 43.2})
+
+    let pieOption = {
+        title: {
+            text: '1. What percentage of questions don\'t have any answer?',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+
+        },
+        grid: {
+            width: '100%',
+            height: '100%'
+        },
+        legend: {
+            orient: 'vertical',
+            textStyle: {
+                fontSize: 20,
+                color: 'black'
+            },
+            right: 'center',
+            bottom: 'bottom',
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '80%',
+                data: Answer,
+                color: ['#4169E1', '#3CB371'],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0.1, 0.2, 0, 0.5)',
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        label: {
+                            textStyle: {
+                                fontSize: 18,
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    };
+    piechart.setOption(pieOption);
+
+
+    const chartDom = document.getElementById('main');
+    const myChart = echarts.init(chartDom);
+
+
+    const xAxis = [];
+    const series = [];
+
+
+    xAxis.push("average number");
+    xAxis.push("maximum number");
+    series.push(1.738);
+    series.push(49);
+
+
+    let option = {
+        title: {
+            text: '2. What is the average and maximum number of answers?',
+            left: 'center',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data: ['Answer count']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: xAxis,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+            }
+        ],
+        series: [
+            {
+                name: 'Answer count',
+                type: 'bar',
+                tooltip: {
+                    valueFormatter: function (value) {
+                        return value;
+                    }
+                },
+                data: series
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+
+    let piechart1 = echarts.init(document.getElementById('piechart1'));
+
+    fetch('../js/answers_distribution.csv')
+        .then(response => response.text())
+        .then(csvData => {
+            let piechartData = [];
+            let Users = []
+            const rows = csvData.split('\n');
+
+            // 解析CSV数据
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].replace(", ", " ").split(',');
+                const Count = cells[0];
+                const Frequency = parseInt(cells[1]);
+                piechartData.push({
+                    name: Count,
+                    value: Frequency,
+                });
+            }
+            let pieOption = {
+
+                title: {
+                    text: '3. What is the distribution of the number of answers?',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+
+                },
+                grid: {
+                    width: '100%',
+                    height: '100%'
+                },
+                legend: {
+                    orient: 'vertical',
+                    textStyle: {
+                        fontSize: 20,
+                        color: 'black'
+                    },
+                    right: 'center',
+                    bottom: 'bottom',
+                },
+                series: [
+                    {
+                        name: 'Problem Count',
+                        type: 'pie',
+                        radius: '80%',
+                        data: piechartData,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0.1, 0.2, 0, 0.5)',
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    formatter(params) {
+                                        return Users[params.dataIndex];
+                                    },
+                                    textStyle: {
+                                        fontSize: 12,
+                                        color: 'black'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+            piechart1.setOption(pieOption);
+        })
+
+
+</script>
+
+</html>

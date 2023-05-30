@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Java2 Project Demo</title>
-    <!--  Import echarts lib by CDN, you can also import from local files  -->
+    <title>Tag</title>
     <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
-    <!--  Import the data files  -->>
+    <!--  Import the data files  -->
 </head>
 <body style="text-align: center">
-<h1>Rust Tag</h1>
-<h4>This is just a demo page</h4>
+<h1>Tag</h1>
 <div style="width: 100%;height: 500px;display: flex">
     <div style="width: 100%;height: 100%">
         <div id="main" style="height: 600px;width: 1500px"></div>
@@ -43,6 +41,11 @@
 
             // 配置图表选项
             const option = {
+                title: {
+                    text: 'Which tags frequently appear together with the java tag?',
+                    textStyle:{fontSize: 25},
+                    left: 'center'
+                },
                 legend: {
                     data: ['频次', '平均评分'],
                     left: '10%'
@@ -90,7 +93,7 @@
 
                 // 解析CSV数据
                 for (let i = 0; i < rows.length; i++) {
-                    const cells = rows[i].replace(","," ").split('#');
+                    const cells = rows[i].replace(",", " ").split('#');
                     const xAxisValue = cells[0].replace(/"/g, '');
                     const seriesValue = parseInt(cells[1]);
 
@@ -100,12 +103,8 @@
 
                 let wordcloudOption = {
                     title: {
-                        text: 'Related Tag WordCloud',
-                        textStyle: {
-                            fontStyle: 'oblique',
-                            fontSize: 20,
-                            color: '#4cc9f0'
-                        },
+                        text: 'Which tags or tag combinations receive the most upvotes?',
+                        textStyle:{fontSize: 25},
                         left: 'center'
                     },
                     tooltip: {},
@@ -156,7 +155,7 @@
 
                 // 解析CSV数据
                 for (let i = 0; i < rows.length; i++) {
-                    const cells = rows[i].replace(","," ").split('#');
+                    const cells = rows[i].replace(",", " ").split('#');
                     const xAxisValue = cells[0].replace(/"/g, '');
                     const seriesValue = parseInt(cells[1]);
 
@@ -166,12 +165,8 @@
 
                 let wordcloudOption = {
                     title: {
-                        text: 'Related Tag WordCloud',
-                        textStyle: {
-                            fontStyle: 'oblique',
-                            fontSize: 20,
-                            color: '#4cc9f0'
-                        },
+                        text: 'Which tags or tag combinations receive the most views(/k)?',
+                        textStyle:{fontSize: 25},
                         left: 'center'
                     },
                     tooltip: {},
